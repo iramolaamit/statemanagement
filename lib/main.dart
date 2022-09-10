@@ -32,15 +32,18 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Home Page'),
       ),
-      body: ListView.builder(
-        itemCount: contactBook.length,
-        scrollDirection: Axis.vertical,
-        itemBuilder: (context, index) {
-          final contact = contactBook.contact(index: index)!;
-          return ListTile(
-            title: Text(contact.name),
-          );
-        },
+      body: ValueListenableBuilder(valueListenable:  ContactBook(),
+        builder: (context, value, child) =>
+         ListView.builder(
+          itemCount: contactBook.length,
+          scrollDirection: Axis.vertical,
+          itemBuilder: (context, index) {
+            final contact = contactBook.contact(index: index)!;
+            return ListTile(
+              title: Text(contact.name),
+            );
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: () async {
