@@ -32,19 +32,33 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Home Page'),
       ),
-      body: ValueListenableBuilder(valueListenable:  ContactBook(),
-        builder: (context, value, child) =>
-         ListView.builder(
-          itemCount: contactBook.length,
-          scrollDirection: Axis.vertical,
-          itemBuilder: (context, index) {
-            final contact = contactBook.contact(index: index)!;
-            return ListTile(
-              title: Text(contact.name),
+      body: ValueListenableBuilder(
+          valueListenable: ContactBook(),
+          builder: (context, value, child) {
+            final contacts =value as List<Contact>;
+            return ListView.builder(
+              // itemCount: contactBook.length,
+              itemCount: contacts.length,
+              scrollDirection: Axis.vertical,
+              itemBuilder: (context, index) {
+                // final contact = contactBook.contact(index: index)!;
+                final contact =contacts[index];
+                return Dismissible(
+                  onDismissed: (direction) {
+                    contacts.remove(contact);
+                  },
+                  key: ValueKey(contact.id),
+                  child: Material(
+                    color: Colors.white,
+                    elevation: 12,
+                    child: ListTile(
+                      title: Text(contact.name),
+                    ),
+                  ),
+                );
+              },
             );
-          },
-        ),
-      ),
+          }),
       floatingActionButton: FloatingActionButton(
           onPressed: () async {
             await Navigator.of(context).pushNamed('/new-contact');
@@ -106,7 +120,7 @@ class Contact {
 }
 
 class ContactBook extends ValueNotifier<List<Contact>> {
-  ContactBook._sharedInstance() : super([]);
+  ContactBook._sharedInstance() : super([ Contact(name: "Amit"),Contact(name: "name")]);
   static final ContactBook _shared = ContactBook._sharedInstance();
   factory ContactBook() => _shared;
   // final List<Contact> _contacts = [];
