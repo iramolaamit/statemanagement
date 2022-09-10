@@ -45,7 +45,7 @@ class MyHomePage extends StatelessWidget {
                 final contact =contacts[index];
                 return Dismissible(
                   onDismissed: (direction) {
-                    contacts.remove(contact);
+                    ContactBook().remove(contact: contact);
                   },
                   key: ValueKey(contact.id),
                   child: Material(
@@ -78,6 +78,12 @@ class NewContactView extends StatefulWidget {
 class _NewContactState extends State<NewContactView> {
   final _contactController = TextEditingController();
   @override
+  // void didUpdateWidget(covariant NewContactView oldWidget) {
+  //   // TODO: implement didUpdateWidget
+  //   super.didUpdateWidget(oldWidget);
+  // }
+  @override
+
   void initState() {
     _contactController;
     super.initState();
